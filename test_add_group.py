@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
-import unittest, time, re
+import unittest
 
 
 class UntitledTestCase(unittest.TestCase):
@@ -18,28 +16,34 @@ class UntitledTestCase(unittest.TestCase):
         driver.get("http://localhost/addressbook/")
         driver.find_element_by_name("user").send_keys(Keys.DOWN)
         driver.find_element_by_name("user").clear()
-        driver.find_element_by_name("user").send_keys("admin")
-        driver.find_element_by_name("pass").click()
-        driver.find_element_by_name("pass").clear()
-        driver.find_element_by_name("pass").send_keys("secret")
+        self.login(driver, login="admin", password="secret")
         driver.find_element_by_xpath("//input[@value='Login']").click()
         driver.find_element_by_link_text("groups").click()
-        driver.find_element_by_name("new").click()
-        driver.find_element_by_name("group_name").click()
-        driver.find_element_by_name("group_name").clear()
-        driver.find_element_by_name("group_name").send_keys("Last")
-        driver.find_element_by_name("group_header").click()
-        driver.find_element_by_name("group_header").clear()
-        driver.find_element_by_name("group_header").send_keys("Last of as")
-        driver.find_element_by_name("group_footer").click()
-        driver.find_element_by_name("group_footer").clear()
-        driver.find_element_by_name("group_footer").send_keys("Last of nas")
-        driver.find_element_by_name("submit").click()
+        self.create_group(driver, name="Last", header="Last of as", footer="Last of nas")
         driver.find_element_by_link_text("group page").click()
         driver.find_element_by_link_text("groups").click()
         driver.find_element_by_link_text("Logout").click()
         driver.find_element_by_name("user").clear()
         driver.find_element_by_name("user").send_keys("admin")
+
+    def login(self, driver, login, password):
+        driver.find_element_by_name("user").send_keys(login)
+        driver.find_element_by_name("pass").click()
+        driver.find_element_by_name("pass").clear()
+        driver.find_element_by_name("pass").send_keys(password)
+
+    def create_group(self, driver, name, header, footer):
+        driver.find_element_by_name("new").click()
+        driver.find_element_by_name("group_name").click()
+        driver.find_element_by_name("group_name").clear()
+        driver.find_element_by_name("group_name").send_keys(name)
+        driver.find_element_by_name("group_header").click()
+        driver.find_element_by_name("group_header").clear()
+        driver.find_element_by_name("group_header").send_keys(header)
+        driver.find_element_by_name("group_footer").click()
+        driver.find_element_by_name("group_footer").clear()
+        driver.find_element_by_name("group_footer").send_keys(footer)
+        driver.find_element_by_name("submit").click()
 
     def is_element_present(self, how, what):
         try:
