@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
+from Contact import Contact
 import unittest
 
 
@@ -19,7 +20,8 @@ class UntitledTestCase(unittest.TestCase):
         wd.get("http://localhost/addressbook/index.php")
         wd.find_element_by_name("user").send_keys(Keys.DOWN)
         self.login(wd)
-        self.create_contact(wd)
+        self.create_contact(wd, Contact(firstname="sdadasdas", middlename="sadasdad", lastname="asdasdas", nickname="dasadad", title="asdadsad", company="asdasdas", address="sadasfasdsa",
+                            home="asdasdas", mobile="asdasdasd", work="asdadsadas", fax="adssaasddsa", email="asdadas"))
         self.create_contact_empty(wd)
         wd.find_element_by_link_text("Logout").click()
 
@@ -28,39 +30,32 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
         wd.find_element_by_link_text("home page").click()
 
-    def create_contact(self, wd):
+    def create_contact(self, wd, Contact):
         wd.find_element_by_link_text("add new").click()
         wd.find_element_by_name("firstname").click()
-        wd.find_element_by_name("firstname").send_keys("sdadasdas")
+        wd.find_element_by_name("firstname").send_keys(Contact.firstname)
         wd.find_element_by_name("middlename").click()
-        wd.find_element_by_name("middlename").send_keys("sadasdad")
+        wd.find_element_by_name("middlename").send_keys(Contact.middlename)
         wd.find_element_by_name("lastname").click()
-        wd.find_element_by_name("lastname").send_keys("asdasdas")
+        wd.find_element_by_name("lastname").send_keys(Contact.lastname)
         wd.find_element_by_name("nickname").click()
-        wd.find_element_by_name("nickname").send_keys("dasadad")
+        wd.find_element_by_name("nickname").send_keys(Contact.nickname)
         wd.find_element_by_name("title").click()
-        wd.find_element_by_name("title").send_keys("asdadsad")
+        wd.find_element_by_name("title").send_keys(Contact.title)
         wd.find_element_by_name("company").click()
-        wd.find_element_by_name("company").send_keys("asdasdas")
+        wd.find_element_by_name("company").send_keys(Contact.company)
         wd.find_element_by_name("address").click()
-        wd.find_element_by_name("address").send_keys("sadasfasdsa")
+        wd.find_element_by_name("address").send_keys(Contact.address)
         wd.find_element_by_name("home").click()
-        wd.find_element_by_name("home").send_keys("asdasdas")
+        wd.find_element_by_name("home").send_keys(Contact.home)
         wd.find_element_by_name("mobile").click()
-        wd.find_element_by_name("mobile").send_keys("asdasdasd")
+        wd.find_element_by_name("mobile").send_keys(Contact.mobile)
         wd.find_element_by_name("work").click()
-        wd.find_element_by_name("work").send_keys("asdadsadas")
+        wd.find_element_by_name("work").send_keys(Contact.work)
         wd.find_element_by_name("fax").click()
-        wd.find_element_by_name("fax").send_keys("adssaasddsa")
+        wd.find_element_by_name("fax").send_keys(Contact.fax)
         wd.find_element_by_name("email").click()
-        wd.find_element_by_name("email").send_keys("asdadas")
-        wd.find_element_by_name("email2").click()
-        wd.find_element_by_name("email2").send_keys("asdadasdasd@sada.asd")
-        wd.find_element_by_name("homepage").click()
-        wd.find_element_by_name("email3").click()
-        wd.find_element_by_name("email3").send_keys("asdadasdasd@sada.asd")
-        wd.find_element_by_name("homepage").click()
-        wd.find_element_by_name("homepage").send_keys("asdadasdasdsa")
+        wd.find_element_by_name("email").send_keys(Contact.email)
         wd.find_element_by_name("bday").click()
         Select(wd.find_element_by_name("bday")).select_by_visible_text("17")
         wd.find_element_by_xpath("//option[@value='17']").click()
@@ -83,12 +78,6 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element_by_name("new_group").click()
         Select(wd.find_element_by_name("new_group")).select_by_visible_text("sadasd")
         wd.find_element_by_xpath("(//option[@value='5'])[3]").click()
-        wd.find_element_by_name("address2").click()
-        wd.find_element_by_name("address2").send_keys("sadasdasda")
-        wd.find_element_by_name("phone2").click()
-        wd.find_element_by_name("phone2").send_keys("asdasdsa")
-        wd.find_element_by_name("notes").click()
-        wd.find_element_by_name("notes").send_keys("sadasdasdas")
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
 
     def login(self, wd):
