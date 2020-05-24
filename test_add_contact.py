@@ -86,17 +86,9 @@ class UntitledTestCase(unittest.TestCase):
         wd.find_element_by_name("pass").send_keys("secret")
         wd.find_element_by_xpath("//input[@value='Login']").click()
 
-    def is_element_present(self, how, what):
-        try:
-            self.driver.find_element(by=how, value=what)
-        except NoSuchElementException as e:
-            return False
-        return True
 
     def tearDown(self):
         self.driver.quit()
-        self.assertEqual([], self.verificationErrors)
-
 
 if __name__ == "__main__":
     unittest.main()
