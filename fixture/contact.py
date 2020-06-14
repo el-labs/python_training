@@ -62,20 +62,25 @@ class ContactHelper:
 
     def change_contact(self, contact):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        self.open_contact_list()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
         self.fill_contact(contact)
         wd.find_element_by_xpath("(//input[@name='update'])[2]").click()
 
+    def open_contact_list(self):
+        wd = self.app.wd
+        if not (wd.current_url == "http://localhost/addressbook/" and len(wd.find_elements_by_name("add")) > 0):
+            wd.find_element_by_link_text("home").click()
+
     def delete_first_contact(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        self.open_contact_list()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
 
     def count(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        self.open_contact_list()
         return len(wd.find_elements_by_name("selected[]"))
