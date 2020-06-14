@@ -23,6 +23,7 @@ class GroupHelper:
         self.fill_group(group)
         wd.find_element_by_name("submit").click()
         self.return_to_groups_page()
+        self.group_cashe = None
 
     def fill_group(self, group):
         self.change_field_value("group_name", group.name)
@@ -35,6 +36,7 @@ class GroupHelper:
             wd.find_element_by_name(field_name).click()
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
+        self.group_cashe = None
 
     def change_form(self, group):
         wd = self.app.wd
@@ -51,18 +53,22 @@ class GroupHelper:
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_name("delete").click()
         self.return_to_groups_page()
+        self.group_cashe = None
 
     def count(self):
         wd = self.app.wd
         self.open_group_page()
         return len(wd.find_elements_by_name("selected[]"))
 
+    group_cash = None
+
     def get_group_list(self):
-        wd = self.app.wd
-        self.open_group_page()
-        groups = []
-        for element in wd.find_elements_by_css_selector("span.group"):
-            text = element.text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            groups.append(Group(name=text, id=id))
-        return groups
+        if self.group_cash is None:
+            wd = self.app.wd
+            self.open_group_page()
+            self.group_cashe = []
+            for element in wd.find_elements_by_css_selector("span.group"):
+                text = element.text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.group_cashe.append(Group(name=text, id=id))
+        return list(self.group_cashe)
