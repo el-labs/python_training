@@ -47,20 +47,24 @@ class ContactHelper:
             wd.find_element_by_name(field_name).click()
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
-        self.contact_cash = None
 
-    def change_contact(self, contact):
+    def change_contact(self, contact, index):
         wd = self.app.wd
         self.open_contact_list()
-        wd.find_element_by_name("selected[]").click()
-        wd.find_element_by_xpath("//img[@alt='Edit']").click()
+        self.select_contact(index)
+        wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
         self.fill_contact(contact)
         wd.find_element_by_xpath("(//input[@name='update'])[2]").click()
+        self.contact_cash = None
 
-    def delete_first_contact(self):
+    def select_contact(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
+
+    def delete_first_contact(self, index):
         wd = self.app.wd
         self.open_contact_list()
-        wd.find_element_by_name("selected[]").click()
+        self.select_contact(index)
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
         wd.find_element_by_link_text("home").click()

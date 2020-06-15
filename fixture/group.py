@@ -38,22 +38,29 @@ class GroupHelper:
             wd.find_element_by_name(field_name).send_keys(text)
         self.group_cashe = None
 
-    def change_form(self, group):
+    def change_form(self, group, index):
         wd = self.app.wd
         self.open_group_page()
-        wd.find_element_by_name("selected[]").click()
+        self.select_group_by_index(index)
         wd.find_element_by_name("edit").click()
         self.fill_group(group)
         wd.find_element_by_name("update").click()
         self.return_to_groups_page()
 
     def delete_first_group(self):
+        self.delete_group_by_index(0)
+
+    def delete_group_by_index(self,index):
         wd = self.app.wd
         self.open_group_page()
-        wd.find_element_by_name("selected[]").click()
+        self.select_group_by_index(index)
         wd.find_element_by_name("delete").click()
         self.return_to_groups_page()
         self.group_cashe = None
+
+    def select_group_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def count(self):
         wd = self.app.wd
