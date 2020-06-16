@@ -8,7 +8,7 @@ class ContactHelper:
 
     def open_contact_list(self):
         wd = self.app.wd
-        if not (wd.current_url == "http://localhost/addressbook/" and len(wd.find_elements_by_name("add")) > 0):
+        if not (wd.current_url.endswith == "/addressbook/" and len(wd.find_elements_by_name("add")) > 0):
             wd.find_element_by_link_text("home").click()
 
     def return_contact_page(self):
