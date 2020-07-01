@@ -14,7 +14,13 @@ class Application:
 
     def open_home_page(self):
         wd = self.wd
+        if wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_xpath("//form[@name='MainForm']//div[1]//input[1]")) > 0:
+            return
         wd.get("http://localhost/addressbook/")
+
+    def return_to_homepage(self):
+        wd = self.wd
+        wd.find_element_by_link_text("home page").click()
 
     def destroy(self):
         self.wd.quit()
