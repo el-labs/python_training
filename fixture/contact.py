@@ -99,7 +99,7 @@ class ContactHelper:
         self.select_by_index(index)
         wd.find_element_by_xpath("(//input[@value='Delete'])").click()
         wd.switch_to.alert.accept()
-        self.app.return_to_homepage()
+        wd.find_element_by_link_text("home").click()
         self.contact_cache = None
 
     def select_by_index(self, index):
