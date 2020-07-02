@@ -9,16 +9,6 @@ class ContactHelper:
 
     contact_cache = None
 
-    def get_contact_from_view_page(self, index):
-        wd = self.app.wd
-        self.open_contact_view_by_index(index)
-        text = wd.find_element_by_id("content").text
-        home_phone = re.search("H: (.*)", text).group(1)
-        work_phone = re.search("W: (.*)", text).group(1)
-        mobile_phone = re.search("M: (.*)", text).group(1)
-        return Contact(home=home_phone, work=work_phone,
-                       mobile=mobile_phone)
-
     def open_contact_view_by_index(self, index):
         wd = self.app.wd
         self.open_list_of_contact()
@@ -106,6 +96,11 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_elements_by_name("selected[]")[index].click()
 
+    def get_edit_page(self, index):
+        wd = self.app.wd
+        self.app.open_home_page()
+        wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
+
     def create_contact(self, contact):
         wd = self.app.wd
         self.open_new_contact_page()
@@ -140,8 +135,24 @@ class ContactHelper:
 
     def open_list_of_contact(self):
         wd = self.app.wd
-        if not(wd.current_url.endswith("/addressbook/")):
+        if not (wd.current_url.endswith("/addressbook/")):
             wd.find_element_by_link_text("home").click()
+
+    def data_edit_page(self, index):
+        wd = self.app.wd
+        self.get_edit_page(index)
+        firstname = wd.find_element_by_xpath("//input[@name='firstname']").get_attribute("value")
+        lastname = wd.find_element_by_xpath("//input[@name='lastname']").get_attribute("value")
+        address = wd.find_element_by_xpath("//textarea[@name='address']").get_attribute("value")
+        home = wd.find_element_by_xpath("//input[@name='home']").get_attribute("value")
+        mobile = wd.find_element_by_xpath("//input[@name='mobile']").get_attribute("value")
+        work = wd.find_element_by_xpath("//input[@name='work']").get_attribute("value")
+        phone2 = wd.find_element_by_xpath("//input[@name='phone2']").get_attribute("value")
+        email = wd.find_element_by_xpath("//input[@name='email']").get_attribute("value")
+        email1 = wd.find_element_by_xpath("//input[@name='email2']").get_attribute("value")
+        email2 = wd.find_element_by_xpath("//input[@name='email3']").get_attribute("value")
+        return Contact(firstname=firstname, lastname=lastname, address=address, home=home, mobile=mobile, work=work,
+                       phone2=phone2, email=email, email1=email1, email2=email2)
 
     def clear(self, s):
         return re.sub("[() -]", "", s)
@@ -150,8 +161,8 @@ class ContactHelper:
         print([contact.home, contact.mobile, contact.work])
         return "\n".join(filter(lambda x: x != "",
                                 map(lambda x: self.clear(x), filter(lambda x: x is not None,
-                                                               [contact.home, contact.mobile,
-                                                                contact.work]))))
+                                                                    [contact.home, contact.mobile,
+                                                                     contact.work]))))
 
     def merge_emails_like_on_home_page(self, contact):
         return "\n".join(filter(lambda x: x != "",
